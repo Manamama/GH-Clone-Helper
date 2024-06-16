@@ -42,4 +42,7 @@ To clone a repository, simply call the function with the repository URL:
 
 ```sh
 gh_clone_with_token "https://github.com/username/repository.git"
+```
+The script shall parse the URL to match the `gh clone` syntax. 
 
+PS. Thanks to Microsoft Copilot for coming up with the idea and the script ! 
