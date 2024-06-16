@@ -1,10 +1,12 @@
 # GH-Clone-Helper 🚀
 
-A nifty shell function to clone GitHub repositories using `gh` instead of `git clone`, complete with authentication support for those pesky rate-limited accounts. 🛠️
+A nifty shell function to clone GitHub repositories using `gh` instead of `git clone`, complete with authentication support from the second account, for those pesky rate-limited accounts. 🛠️
 
-## Why You'll Love It ❤️
+## Why You'll Love It 👨‍🏭
 
-Tired of `git clone` breaking your heart (and your code) with its fickle ways? 😩 GH-Clone-Helper is your new reliable BFF. It's like a warm hug for your repositories, ensuring a smooth cloning process even when your internet decides to play hard to get. 🌐💔
+Tired of `git clone` breaking your heart (and your code) with its fickle ways? 😩 GH-Clone-Helper is your new reliable BFF. It's like a warm hug for your repositories, ensuring a smooth cloning process even when your internet decides to play hard to get. 🌐💔.
+More mundanely: Many end-users encounter issues with the standard `git clone` where the cloning process breaks, especially when dealing with large repositories or unstable Internet connections. Common fixes such as increasing `http.postBuffer` or using shallow clones often do not resolve these issues[^1^][1]. The `git clone` command can fail due to various reasons, including network timeouts and data transfer interruptions, leading to incomplete clones that cannot be resumed from the point of failure[^2^][2]. 
+`GH-Clone-Helper` aims to provide a more robust solution by leveraging the GitHub CLI, its `gh clone`, which uses GitHub's API for cloning operations, offering a more stable and reliable cloning process.
 
 ## Get Your Token, Get Set, Go! 🏁
 
@@ -43,4 +45,5 @@ gh_clone_with_token "https://github.com/username/repository.git"
 
 And voilà! The script will work its magic, leaving you with a perfectly cloned repo. 🎩✨
 
-PS. Sending a high-five to Microsoft Copilot for the assist on this script! 🙌 And remember, keep your tokens close and your repositories closer. 😉🔒
+PS. Sending a high-five to Microsoft Copilot🤖🦜🦉 for the assist on this script! 🙌 And remember, keep your tokens close and your repositories closer. 😉🔒
+(And MS Copilot wrote most of the above, too.)
