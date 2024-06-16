@@ -7,7 +7,7 @@ A nifty shell function to clone GitHub repositories using `gh` instead of `git c
 Tired of `git clone` breaking your heart (and your code) with its fickle ways? 😩 GH-Clone-Helper is your new reliable BFF. It's like a warm hug for your repositories, ensuring a smooth cloning process even when your internet decides to play hard to get. 🌐💔.
 
 More mundanely: Many end-users encounter issues with the standard `git clone` where the cloning process breaks, especially when dealing with large repositories or unstable Internet connections. Common fixes such as increasing `http.postBuffer` or using shallow clones often do not resolve these issues. The `git clone` command can fail due to various reasons, including network timeouts and data transfer interruptions, leading to incomplete clones that cannot be resumed from the point of failure. 
-`GH-Clone-Helper` aims to provide a more robust solution by leveraging the GitHub CLI, its `gh clone`, which uses GitHub's API for cloning operations, offering a more stable and reliable cloning process.
+`GH-Clone-Helper` (now at: https://github.com/Manamama/GH-Clone-Helper/blob/main/gh_clone_with_token.sh) aims to provide a more robust solution by leveraging the GitHub CLI, its `gh clone`, which uses GitHub's API for cloning operations, offering a more stable and reliable cloning process.
 
 ## Get Your Token, Get Set, Go! 🏁
 
@@ -53,4 +53,4 @@ PS. Sending a high-five to Microsoft Copilot🤖🦜🦉 (still in the Creative 
 ⬜⬛⬜⬛⬜
 ⬛⬜⬛⬜⬛
 ```
-ver. 1.0.1
+ver. 1.0.2
