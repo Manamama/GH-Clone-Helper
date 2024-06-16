@@ -45,5 +45,10 @@ gh_clone_with_token "https://github.com/username/repository.git"
 
 And voilà! The script will work its magic, leaving you with a perfectly cloned repo. 🎩✨
 
-PS. Sending a high-five to Microsoft Copilot🤖🦜🦉 for the assist on this script! 🙌 And remember, keep your tokens close and your repositories closer. 😉🔒
+PS. Sending a high-five to Microsoft Copilot🤖🦜🦉 (Creative) for the assist on this script! 🙌 And remember, keep your tokens close and your repositories closer. 😉🔒
 (And MS Copilot wrote most of the above, too.)
+⬛⬜⬛⬜⬛
+⬜⬛⬜⬛⬜
+⬛⬜⬛⬜⬛
+
+ver. 1.0.0
