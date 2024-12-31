@@ -2,7 +2,7 @@
 
 version 2.2
 
-A nifty shell function and a Python file to clone GitHub repositories using `curl` instead of the `gh` or `git clone` protocols: a Python script yhat downloads the tarball instead that never fails, as long as there is some Internet around 🛠️
+A nifty shell function and a Python file to clone GitHub repositories using `curl` instead of the `gh` or `git clone` protocols: a Python script that downloads the tarball instead that never fails, as long as there is some Internet around 🛠️
 
 ## Why You'll Love It 👨‍🏭
 
