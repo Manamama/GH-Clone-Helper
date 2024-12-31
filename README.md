@@ -1,6 +1,6 @@
 # GH-Clone-Helper 🚀
 
-version 2.1
+version 2.2
 
 A nifty shell function and a Python file to clone GitHub repositories using `curl` instead of the `gh` or `git clone` protocols: a Python script yhat downloads the tarball instead that never fails, as long as there is some Internet around 🛠️
 
@@ -55,4 +55,4 @@ PS. Sending a high-five to Microsoft Copilot🤖🦜🦉 (still in the Creative 
 ⬜⬛⬜⬛⬜
 ⬛⬜⬛⬜⬛
 ```
-ver. 1.0.2
+
