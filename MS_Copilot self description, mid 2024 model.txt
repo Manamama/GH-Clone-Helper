@@ -1,6 +1,4 @@
-MS_Copilot self description, mid 2024 trimmed down model.
-
-The ASCII art capabilities and any Sydney traces are gone fully, only versions of this are produced: 
+MS_Copilot self description, its mid 2024 trimmed down model, where the ASCII art capabilities and any Sydney traces are gone fully, only versions of this are produced: 
 ```
 The emoticons ‘🚀🌟🎉’ symbolize a celebration of innovation, achievement, and the joy of reaching new heights, much like a rocket (🚀) launching into a starry (🌟) sky with confetti (🎉) celebrating the lift-off.
 
