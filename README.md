@@ -1,56 +1,96 @@
 # GH-Clone-Helper 🚀
 
-version 2.2
+#version 3.0
 
-A nifty shell function and a Python file to clone GitHub repositories using `curl` instead of the `gh` or `git clone` protocols: a Python script that downloads the tarball instead that never fails, as long as there is some Internet around 🛠️
 
-## Why You'll Love It 👨‍🏭
+Just use: `git2`!
 
-Tired of `git clone` breaking your heart (and your code) with its fickle ways? 😩 GH-Clone-Helper is your new reliable BFF. It's like a warm hug for your repositories, ensuring a smooth cloning process even when a GitHub project decides to play hard to get. 🌐💔.
+This one: 
 
-More mundanely: Many end-users encounter issues with the standard `git clone` where the cloning process breaks, especially when dealing with large repositories or unstable Internet connections. Common fixes such as increasing `http.postBuffer` or using shallow clones often do not resolve these issues. The `git clone` command can fail due to various reasons, including network timeouts and data transfer interruptions, leading to incomplete clones that cannot be resumed from the point of failure. 
-`GH-Clone-Helper` (now at: https://github.com/Manamama/GH-Clone-Helper/) aims to provide a more robust solution by leveraging the curl, which makes for a stable and reliable cloning process.
-[below is to be updated:]
+```
+git2 --help
+usage: git2 [--help] [-c <key=value>] [--config-env=<key=value>] [--no-pager]
+             [--version] <command> [<args>...]
 
-## Get Your Token, Get Set, Go! 🏁
+These are the git2 commands available:
 
-To kick things off with GH-Clone-Helper, you'll need a personal access token (PAT) from your sidekick GitHub account. This little golden key 🗝️ will let GH-Clone-Helper step in on your behalf, especially handy when your main account is taking a timeout. 🕒
+   blame        Show the origin of each line of a file
+   cat-file     Display an object in the repository
+   clone        Clone a repository into a new directory
+   config       View or set configuration values
+   hash-object  Hash a raw object and product its object ID
+   help         Display help information
+   index-pack   Create an index for a packfile
+   init         Create a new git repository
 
-### Crafting Your Personal Access Token 🛠️
-
-1. Sneak into your secondary GitHub account. 🕵️‍♂️
-2. Navigate to your account settings.
-3. Hit "Developer settings" like it owes you money. 💰
-4. Choose "Personal access tokens" and treat yourself to a "Generate new token" moment.
-5. Name your token something memorable, pick the powers you want to bestow upon it (minimum: `repo`), and let the magic happen. ✨
-6. **Heads up**: Copy your token now! It's a shy one and won't show itself again. 🙈
-
-### Securing Your Personal Access Token 🔐
-
-1. Pop open a terminal window.
-2. Summon a text editor and conjure up a `.ghtoken2` file in your home directory:
-   ```sh
-   nano ~/.ghtoken2
-   ```
-   
-## Setting Up Shop 🛍️
-
-1. Make sure the GitHub CLI is part of your toolkit and on speaking terms with your secondary token.
-2. Cozy up your shell configuration file with the `gh_clone_with_token` function. It's like inviting a friend over. 🏡
-3. Give your terminal a quick refresh or just reboot. It's like a spa day for your CLI. 🧖‍♂️
-
-## How to Use It 🤔
-
-When you're ready to bring a new repo into your life, just whisper sweet nothings to the function like so:
-
-```sh
-gh_clone_with_token "https://github.com/username/repository.git"
+See 'git2 help <command>' for more information on a specific command.
 ```
 
-And voilà! The script will work its magic, leaving you with a perfectly cloned repo. 🎩✨
 
-PS. Sending a high-five to Microsoft Copilot🤖🦜🦉 (still in the Creative mode) for the assist on this script! 🙌 And remember, keep your tokens close and your repositories closer. 😉🔒
-(And MS Copilot wrote most of the above, too.)
+Here is why: 
+
+Here’s a precise breakdown, backed by evidence, of where **libgit2** (i.e., `git2`) operates more resiliently than the standard Git CLI in OSI-layer terms:
+
+---
+
+### 🔍 OSI Layers Where `git2` Excels
+
+#### ⚙️ Layer 4: **Transport** (TCP-level keep-alives and connection handling)
+
+* **libgit2** implements its own keep-alive logic over HTTP(S) and SSH subtransports. Unlike classic Git, it doesn’t rely solely on the system's TCP behavior.
+* From issue #5133: there's ongoing work to implement keep-alive for the receiving side of the smart protocol, because the original Git was too rigid here ([github.com][1]).
+* It resets connection flags properly and reconnects substreams if needed ([git.kmx.io][2]).
+
+#### 🧩 Layer 5–6: **Session / Presentation** (HTTP/SSH session management)
+
+* **libgit2** supports session reuse and proper reconnect logic:
+
+  * It offers hooks and reconnection strategies to recover gracefully from broken TLS/SSH sessions .
+  * It fine-tunes buffer sizes (16 KB TLS packets) to avoid partial reads and unintended stalls ([fossies.org][3]).
+
+#### 📦 Layer 7: **Application** (Git packfile streaming and protocol)
+
+* Implements smarter pipelining for HTTP(S) and SSH — being able to restart or continue smart fetches rather than abort entirely.
+* Manages subtransports (`smart`, `ssh`, `http`, `https`, `git`) more robustly ([stackoverflow.com][4]), maintaining modularity and allowing finer control over retries and failure recovery.
+
+---
+
+### 🛠 Why Standard Git Falls Short
+
+* The official Git CLI uses a **single-packfile pushdown**: if the live stream fails, it's all aborted.
+* There are no client-side retries or keep-alives built into the packfile logic.
+* Reconnection requires starting the entire fetch/clone operation from scratch.
+
+---
+
+### ✅ Summary Comparison: `libgit2` vs Classic Git
+
+| OSI Layer            | Classic Git                                                        | `libgit2` ("git2")                                                                      |
+| -------------------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------- |
+| **Transport (L4)**   | Relies on OS-level TCP, no keep-alive layer                        | Implements its own keep-alive and reconnect logic ([reddit.com][5])                     |
+| **Session (L5–6)**   | One-shot session per clone/fetch                                   | Reuses sessions, can re-establish broken ones, adjusts TLS buffer readings              |
+| **Application (L7)** | Single monolithic smart protocol stream (packfile) with no restart | Modular transport, retries missing packs or refs, robust against intermittent failures  |
+
+---
+
+### 🧭 Bottom Line
+
+* **Libgit2** is built with a layered, resilient architecture that reinstantiates connections, respects keep-alives, and safely retries failed operations.
+* **Classic Git** is optimized for LAN, fast atomic fetches with no error tolerance for interruptions—it fails hard rather than recover.
+
+That difference at OSI layers 4 through 7 explains why **`git2 clone`** can cope with a 59 B/s flaky mobile network without failing, while `git clone` crashes mid-pack.
+
+Let me know if you want to explore specific bits in the libgit2 codebase or protocols further!
+
+[1]: https://github.com/libgit2/libgit2/issues/5133?utm_source=chatgpt.com "packbuilder performance/connection timeout · Issue #5133 · libgit2/libgit2 · GitHub"
+[2]: https://git.kmx.io/thodg/libgit2/_log/4796c916d376af528d8bbf07e8a5e176da6ee928/src/transports?utm_source=chatgpt.com "kmx git"
+[3]: https://fossies.org/linux/libgit2/src/libgit2/transports/httpclient.c?utm_source=chatgpt.com "libgit2: src/libgit2/transports/httpclient.c | Fossies"
+[4]: https://stackoverflow.com/questions/34112495/what-transfer-protocols-does-libgit2-support-for-cloning?utm_source=chatgpt.com "What transfer protocols does libgit2 support for cloning? - Stack Overflow"
+[5]: https://www.reddit.com/r/MailDevNetwork/comments/1fh210k?utm_source=chatgpt.com "How to Fix an 81% Git Clone Stuck"
+
+
+
+
 ```
 ⬛⬜⬛⬜⬛
 ⬜⬛⬜⬛⬜
