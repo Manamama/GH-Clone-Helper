@@ -1,6 +1,6 @@
 # GH-Clone-Helper 🚀
 
-#version 3.0
+#version 3.0.1
 
 
 Just use: `git2`!
@@ -29,7 +29,6 @@ See 'git2 help <command>' for more information on a specific command.
 
 Here is why: 
 
-Here’s a precise breakdown, backed by evidence, of where **libgit2** (i.e., `git2`) operates more resiliently than the standard Git CLI in OSI-layer terms:
 
 ---
 
@@ -80,7 +79,6 @@ Here’s a precise breakdown, backed by evidence, of where **libgit2** (i.e., `g
 
 That difference at OSI layers 4 through 7 explains why **`git2 clone`** can cope with a 59 B/s flaky mobile network without failing, while `git clone` crashes mid-pack.
 
-Let me know if you want to explore specific bits in the libgit2 codebase or protocols further!
 
 [1]: https://github.com/libgit2/libgit2/issues/5133?utm_source=chatgpt.com "packbuilder performance/connection timeout · Issue #5133 · libgit2/libgit2 · GitHub"
 [2]: https://git.kmx.io/thodg/libgit2/_log/4796c916d376af528d8bbf07e8a5e176da6ee928/src/transports?utm_source=chatgpt.com "kmx git"
