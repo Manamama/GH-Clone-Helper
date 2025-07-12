@@ -10,8 +10,9 @@ What the code does:
 Note:
 - This script uses HTTP to download the repository, as specified.
 - The provided URL (even if it is HTTPS) is converted to the HTTP equivalent for compatibility.
+- Or just use `git2 version 1.9.0` !
 
-ManamaMa, Version 1.1
+ManamaMa, Version 1.2
 '''
 
 import os
