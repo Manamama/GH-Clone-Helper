@@ -1,11 +1,12 @@
 # GH-Clone-Helper 🚀
 
-#version 3.0.2
+#version 3.0.3
 
 
 Just use: `git2`!
 
 This one https://github.com/libgit2/libgit2: 
+`git2 version 1.9.0`
 
 ```
 git2 --help
